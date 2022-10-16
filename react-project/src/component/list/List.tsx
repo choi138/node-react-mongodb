@@ -1,8 +1,8 @@
 import React from "react";
 import { IToDo, ToDos } from "../../api";
 import { Link, useNavigate } from 'react-router-dom';
-import styled from "styled-components";
 import axios from "axios";
+import * as S from "./ListStyle";
 
 
 interface IProps {
@@ -13,9 +13,6 @@ interface IProps {
     query: string;
 };
 
-const Input = styled.input`
-
-`;
 
 function List({ todos, part, id, title }: IProps) {
     const history = useNavigate();
@@ -37,26 +34,24 @@ function List({ todos, part, id, title }: IProps) {
         });
     }
 
-
     return (
         <>
-            <div>
-                <h1>{title}</h1>
+            <S.Wrap>
+                <S.Title>서버에서 가져온 할일 리스트</S.Title>
                 {todos.map((todo: ToDos) => (
-                    <div style={{ border: "1px solid gray" }}>
-                        <p>글번호 :{todo._id}</p>
-                        <h2>{todo.제목}</h2>
-                        <p>{todo.날짜}</p>
-                        <button data-id={todo._id} onClick={onClick}>삭제</button>
-                        <button onClick={() => boxClick(todo._id)} >수정</button>
-                    </div>
+
+                    <>
+                        <S.ListWrap>
+                            <S.WirteCount onClick={() => boxClick(todo._id)}>글번호 : {todo._id}</S.WirteCount>
+                            <S.TitleText>할일 제목 : {todo.제목}</S.TitleText>
+                            <S.Date>할일 마감날짜 : {todo.날짜}</S.Date>
+                            <S.Button data-id={todo._id} onClick={onClick}>삭제</S.Button>
+                            <S.Button>수정</S.Button>
+                        </S.ListWrap>
+                    </>
+
                 ))}
-            </div>
-            <form action="/add" method="POST">
-                <Input type="text" name="title" />
-                <Input type="text" name="date" />
-                <button>추가</button>
-            </form>
+            </S.Wrap>
         </>
     )
 }

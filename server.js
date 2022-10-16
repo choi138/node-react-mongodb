@@ -20,7 +20,7 @@ MongoClient.connect(`mongodb+srv://kidjustinchoi:kidjustin0524@cluster0.s2yc1kc.
 
 
 
-app.get('/detail', (req, res) => {
+app.get('/post', (req, res) => {
     db.collection('mypost').find().toArray((error, result) => { // post라는 collectoin안의 모든 데이터를 가져옴
         console.log(result); // 가져온 데이터를 콘솔에 출력
         console.log(error)
@@ -55,7 +55,7 @@ app.delete('/delete', (req, res) => {
     });
 });
 
-app.get('/detail/:id', (req, res) => {
+app.get('/postdetail/:id', (req, res) => {
     db.collection('mypost').findOne({ _id: parseInt(req.params.id) }, (error, result) => {
         res.json(result);
     });
@@ -66,3 +66,7 @@ app.get('*', (req, res) => {
     // console.log('Serving index.html');
 });
 
+// GET요청은 데이터를 가져오는 요청
+// POST요청은 데이터를 생성하는 요청
+// PUT요청은 데이터를 수정하는 요청
+// DELETE요청은 데이터를 삭제하는 요청
