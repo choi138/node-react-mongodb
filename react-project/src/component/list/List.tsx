@@ -20,6 +20,10 @@ function List({ todos, part, id, title }: IProps) {
         history(`/detail/${id}`);
     }
 
+    const editClick = (id: number) => {
+        history(`/edit/${id}`);
+    }
+
     const onClick = (e: any) => {
         let writeCount = e.target.dataset.id; //
         let nowClick = e.target;
@@ -46,7 +50,7 @@ function List({ todos, part, id, title }: IProps) {
                             <S.TitleText>할일 제목 : {todo.제목}</S.TitleText>
                             <S.Date>할일 마감날짜 : {todo.날짜}</S.Date>
                             <S.Button data-id={todo._id} onClick={onClick}>삭제</S.Button>
-                            <S.Button>수정</S.Button>
+                            <S.Button onClick={() => editClick(todo._id)}>수정</S.Button>
                         </S.ListWrap>
                     </>
 

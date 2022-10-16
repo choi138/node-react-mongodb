@@ -32,6 +32,7 @@ export const Input = styled.input`
     border-radius: 4.5px;
     padding-left: 10px;
     padding: 5px;
+    caret-color: auto; 
 `;
 
 export const ToDoDiv = styled.div`

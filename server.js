@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method')); // method-override 사용
 app.use(express.static(path.join(__dirname, 'react-project/build')));
 app.use(express.json());
 let cors = require('cors');
@@ -58,15 +60,27 @@ app.delete('/delete', (req, res) => {
 app.get('/postdetail/:id', (req, res) => {
     db.collection('mypost').findOne({ _id: parseInt(req.params.id) }, (error, result) => {
         res.json(result);
+        if (error) return res.send(error);
     });
 })
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'react-project/build/index.html'));
-    // console.log('Serving index.html');
-});
 
 // GET요청은 데이터를 가져오는 요청
 // POST요청은 데이터를 생성하는 요청
 // PUT요청은 데이터를 수정하는 요청
 // DELETE요청은 데이터를 삭제하는 요청
+
+app.put('/edit', (req, res) => {
+    db.collection('post').updateOne({ _id: parseInt(req.body._id) }, { $set: { 제목: req.body.title, 날짜: req.body.date } }, (error, result) => {
+        // updateOne(어떤게시물수정할건지, 수정값, 콜백함수) $set 업데이트 해주세요(없으면 추가해주시고요)라는 뜻
+        console.log('수정완료');
+        if (error) return res.send('에러가 발생했습니다');
+        res.redirect('/list');
+    });
+})
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'react-project/build/index.html'));
+});
+
+

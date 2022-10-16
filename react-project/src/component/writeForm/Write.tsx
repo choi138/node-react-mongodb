@@ -1,4 +1,4 @@
-import * as S from "./WriteStyle"
+import * as S from "./Style"
 
 
 
