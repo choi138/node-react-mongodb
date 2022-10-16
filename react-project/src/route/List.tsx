@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getToDo, IToDo } from "./api";
-import List from "./List";
+import { getToDo, IToDo } from "../api";
+import List from "../component/list/List";
 
 function ToDo() {
     const { data: todo, isLoading: todoLoading } =
