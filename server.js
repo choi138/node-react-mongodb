@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
-app.use(methodOverride('_method')); // method-override 사용
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'react-project/build')));
-app.use(express.json());
+app.use(express.json()); // 해석: 
 let cors = require('cors');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +33,6 @@ app.get('/post', (req, res) => {
 })
 
 app.post('/add', (req, res) => { // POST요청 처리를 하려면 app.post를 사용
-    res.send('전송완료');
     db.collection('mycounter').findOne({ name: '게시물갯수' }, (error, result) => {
         console.log(result.totalPost);
         let totalPost = result.totalPost;
@@ -42,11 +41,20 @@ app.post('/add', (req, res) => { // POST요청 처리를 하려면 app.post를 �
             console.log('포스트에 저장완료'); //post라는 파일에 InsertOne{자료}로 저장
             db.collection('mycounter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, (error, result) => {
                 if (error) return console.log(error);
+                else res.redirect('/list');
             });
         });
         // console.log(req.body.title) // req.body로 POST요청의 body를 받아올 수 있다.
     })
 
+});
+
+app.post('/login', (req, res) => {
+    if (req.body.username == 'hsoc' && req.body.password == 'love@hsoc') {
+        res.send('HOSC{welcome_to_the_hosc}');
+    } else {
+        res.send('로그인 실패');
+    }
 });
 
 app.delete('/delete', (req, res) => {
